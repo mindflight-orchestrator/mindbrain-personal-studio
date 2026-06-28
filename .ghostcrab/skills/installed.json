@@ -1,0 +1,20 @@
+{
+  "target": "codex",
+  "scope": "user",
+  "sourceBundleRoot": "/home/dlamotte/Documents/ghostcrab-personal-mcp/node_modules/@mindflight/ghostcrab-personal-mcp/bin/ide-skills",
+  "installedSkillRoot": "/home/dlamotte/.codex/skills",
+  "sharedRoot": "/home/dlamotte/Documents/mindflight/mindbrain-personal-studio/.ghostcrab/skills/shared",
+  "skills": [
+    "ghostcrab-memory",
+    "ghostcrab-prompt-guide",
+    "ghostcrab-data-architect",
+    "ghostcrab-integration-sop-editor",
+    "mindbrain-comparison-writer",
+    "ghostcrab-operator",
+    "ghostcrab-evidence-discovery",
+    "ghostcrab-projection-reviewer",
+    "ghostcrab-gap-auditor",
+    "ghostcrab-json-answer-builder"
+  ],
+  "generatedAt": "2026-06-24T16:04:13.204Z"
+}

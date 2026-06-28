@@ -1,0 +1,14 @@
+node_modules
+.svelte-kit
+build
+dist-pack/
+.env
+.DS_Store
+*.log
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
+data/*.pid
+data/*.backend.json
+data/runtime/
+.cursor/

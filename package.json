@@ -1,0 +1,80 @@
+{
+	"name": "@mindflight/mindbrain-personal-studio",
+	"version": "0.6.0",
+	"description": "Local GhostCrab MindBrain Studio for SQLite-backed workspaces.",
+	"license": "UNLICENSED",
+	"type": "module",
+	"bin": {
+		"ghostcrab-studio": "./bin/mindbrain-studio.mjs",
+		"mindbrain-studio": "./bin/mindbrain-studio.mjs"
+	},
+	"files": [
+		"bin",
+		"build",
+		"fixtures/minimal-graph.sqlite",
+		"scripts/*.mjs",
+		"scripts/lib",
+		"README.md",
+		".env.example"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mindflight-orchestrator/mindbrain-personal-studio.git"
+	},
+	"homepage": "https://github.com/mindflight-orchestrator/mindbrain-personal-studio#readme",
+	"bugs": {
+		"url": "https://github.com/mindflight-orchestrator/mindbrain-personal-studio/issues"
+	},
+	"keywords": [
+		"ghostcrab",
+		"mindbrain",
+		"studio",
+		"sqlite",
+		"graph"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"packageManager": "pnpm@10.28.1",
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"scripts": {
+		"backend": "node scripts/backend-sqlite.mjs",
+		"dev": "node scripts/dev-sqlite.mjs",
+		"studio": "node scripts/studio-sqlite.mjs --dev",
+		"start": "node scripts/studio-sqlite.mjs --serve",
+		"load:demo": "bash scripts/load-immeuble-demo.sh",
+		"dev:fixture": "DATA_SOURCE=sqlite-demo GHOSTCRAB_SQLITE_PATH=fixtures/minimal-graph.sqlite vite dev",
+		"backend:immeuble": "node -e \"console.warn('deprecated: use pnpm backend');\" && node scripts/backend-sqlite.mjs",
+		"dev:immeuble": "node -e \"console.warn('deprecated: use pnpm dev');\" && node scripts/dev-sqlite.mjs",
+		"backend:sqlite": "node -e \"console.warn('deprecated: use pnpm backend');\" && node scripts/backend-sqlite.mjs",
+		"dev:sqlite": "node -e \"console.warn('deprecated: use pnpm dev');\" && node scripts/dev-sqlite.mjs",
+		"studio:sqlite": "node -e \"console.warn('deprecated: use pnpm studio');\" && node scripts/studio-sqlite.mjs",
+		"load:immeuble": "pnpm load:demo",
+		"seed:immeuble-projections": "bash scripts/seed-immeuble-projections.sh",
+		"build": "vite build",
+		"pack:local": "pnpm run build && mkdir -p dist-pack && npm pack --pack-destination dist-pack",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || true",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-node": "^5.5.7",
+		"@sveltejs/kit": "^2.50.2",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@types/node": "^24.10.1",
+		"svelte": "^5.54.0",
+		"svelte-check": "^4.4.2",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"@keenmate/svelte-treeview": "5.0.0-rc07",
+		"graphology": "^0.26.0",
+		"graphology-layout": "^0.6.1",
+		"graphology-layout-forceatlas2": "^0.10.1",
+		"graphology-types": "^0.24.8",
+		"sigma": "^3.0.2"
+	}
+}
