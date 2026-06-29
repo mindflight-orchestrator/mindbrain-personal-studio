@@ -5,7 +5,7 @@
 - Prepare the Studio repo for manual npm publication, but do not run `npm publish`.
 - Publishable package target: `@mindflight/mindbrain-personal-studio@0.6.0`.
 - Include the package prep, README update, saved plan, and squash-release flow in the final `0.6` tag.
-- Preserve unrelated local PrivateDomain/demo work outside the release.
+- Preserve unrelated local demo work outside the release.
 
 ## Key Changes
 
@@ -19,7 +19,7 @@
 
 ## Release Flow
 
-- Keep existing local PrivateDomain/docs/scripts work out of the release by stashing it before edits and restoring it after push.
+- Keep existing local docs/scripts work out of the release by stashing it before edits and restoring it after push.
 - Rename current GitLab `origin` to `origin2`, add GitHub as new `origin`, and ensure branch is `main`.
 - Create a single root squash commit from the final release tree.
 - Move tag `0.6` to the new root commit.

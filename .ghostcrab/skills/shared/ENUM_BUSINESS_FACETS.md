@@ -22,7 +22,7 @@ Apply this rule **automatically** during ontology alignment — do not wait for 
 ## Forbidden patterns
 
 - Bare slots: `formule_service`, `statut_exercice` (missing module prefix)
-- Legacy noise: `com_*`, `tec_*`, `private-domain_p3.property.*`
+- Legacy noise: `com_*`, `tec_*`, `legacy_project.property.*`
 - Reusing path/content ingest keys (`path_top_level`, `content_class`) for business enums
 - Mixing multiple module prefixes inside one facet schema without explicit `module` metadata
 
@@ -35,14 +35,14 @@ Apply this rule **automatically** during ontology alignment — do not wait for 
 
 ## MCP workflow (Phase B modeling, after user confirmation)
 
-Order for multi-module domains (example: PrivateDomain `private-domain-coproprietes-v4`):
+Order for multi-module domains (example: `copro-management-v1`):
 
 ### 1. Import LinkML per module
 
 ```json
 {
-  "workspace_id": "private-domain-coproprietes-v4",
-  "ontology_id": "private-domain-coproprietes-v4::administrative",
+  "workspace_id": "copro-management-v1",
+  "ontology_id": "copro-management-v1::administrative",
   "input_path": "ontology/administrative.yaml",
   "source_format": "linkml"
 }
@@ -60,10 +60,10 @@ Recommended import order when modules depend on each other: `production` → `ad
 {
   "target": "facets",
   "definition": {
-    "schema_id": "private-domain-coproprietes-v4:administrative",
+    "schema_id": "copro-management-v1:administrative",
     "description": "Administrative module enum facets",
     "module": "administrative",
-    "ontology_id": "private-domain-coproprietes-v4::administrative",
+    "ontology_id": "copro-management-v1::administrative",
     "source_linkml": "ontology/administrative.yaml",
     "status": "provisional",
     "facet_keys": ["administrative.formule_service", "administrative.statut_mandat"],
@@ -96,17 +96,17 @@ Unknown facet names require explicit `label` or `description`.
 
 | Check | Expected |
 | --- | --- |
-| `ghostcrab_schema_list(domain="private-domain-coproprietes-v4", target="facets")` | One schema per module (6 for PrivateDomain V4) |
+| `ghostcrab_schema_list(domain="copro-management-v1", target="facets")` | One schema per module |
 | `ghostcrab_facet_inspect("administrative.formule_service")` | Known facet |
 | `ghostcrab_facet_inspect("comptabilite.statut_exercice")` | Known facet |
-| `ghostcrab_workspace_inspect("private-domain-coproprietes-v4")` | Empty semantic tables **before structured-import** — not an error |
-| `ghostcrab_projections_list("private-domain-coproprietes-v4")` | Empty **before projections phase** — not an error |
+| `ghostcrab_workspace_inspect("copro-management-v1")` | Empty semantic tables **before structured-import** — not an error |
+| `ghostcrab_projections_list("copro-management-v1")` | Empty **before projections phase** — not an error |
 
 Use `ghostcrab_facet_catalog` to list registered definitions; use `ghostcrab_facet_validate` before bulk facet writes.
 
-## PrivateDomain V4 reference (39 enum facets)
+## Multi-module reference (39 enum facets)
 
-Reference catalog for `private-domain-coproprietes-v4` — register via workflow above; do not seed automatically.
+Reference catalog for `copro-management-v1` — register via workflow above; do not seed automatically.
 
 ### production
 

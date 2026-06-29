@@ -34,4 +34,4 @@
   2. `ghostcrab_facet_register` for each `<module>.<slot_snake_case>` key
   3. Validate with `ghostcrab_facet_inspect` and `ghostcrab_schema_list(domain=…, target="facets")`
 
-Convention and PrivateDomain V4 reference: [ENUM_BUSINESS_FACETS.md](./ENUM_BUSINESS_FACETS.md).
+Convention and multi-module enum reference: [ENUM_BUSINESS_FACETS.md](./ENUM_BUSINESS_FACETS.md).

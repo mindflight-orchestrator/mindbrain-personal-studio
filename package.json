@@ -12,7 +12,11 @@
 		"bin",
 		"build",
 		"fixtures/minimal-graph.sqlite",
-		"scripts/*.mjs",
+		"scripts/backend-sqlite.mjs",
+		"scripts/dev-sqlite.mjs",
+		"scripts/publish-npm.mjs",
+		"scripts/seed-immeuble-projections.mjs",
+		"scripts/studio-sqlite.mjs",
 		"scripts/lib",
 		"README.md",
 		".env.example"

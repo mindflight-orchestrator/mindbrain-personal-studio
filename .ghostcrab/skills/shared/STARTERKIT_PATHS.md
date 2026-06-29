@@ -65,7 +65,7 @@ Always prefer **`personal-mcp/`** edition files over root stubs.
 {project}/
   ontology/
     core.yaml              # single-module default
-    production.yaml        # multi-module (e.g. PrivateDomain V4)
+    production.yaml        # multi-module domain
     administrative.yaml
   output/
     ontology-slice.json    # dry-run compile output

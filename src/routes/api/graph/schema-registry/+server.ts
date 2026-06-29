@@ -73,6 +73,15 @@ function schemaFields(definition: Record<string, unknown>): NonNullable<SchemaRe
 		.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+function schemaClassName(definition: Record<string, unknown>): string | null {
+	if (typeof definition.class_name === 'string') return definition.class_name;
+	const metadata =
+		definition.metadata && typeof definition.metadata === 'object' && !Array.isArray(definition.metadata)
+			? (definition.metadata as Record<string, unknown>)
+			: {};
+	return typeof metadata.class_name === 'string' ? metadata.class_name : null;
+}
+
 function sqlString(value: string): string {
 	return `'${value.replaceAll("'", "''")}'`;
 }
@@ -154,13 +163,7 @@ export const GET: RequestHandler = async ({ url }) => {
 				schema_id: schemaId,
 				ontology_key: schemaOntologyKey(schemaId, workspace),
 				entity_type: entityTypeFromSchemaId(schemaId, workspace),
-				class_name:
-					definition.private-domain &&
-					typeof definition.private-domain === 'object' &&
-					!Array.isArray(definition.private-domain) &&
-					typeof (definition.private-domain as Record<string, unknown>).class_name === 'string'
-						? String((definition.private-domain as Record<string, unknown>).class_name)
-						: null,
+				class_name: schemaClassName(definition),
 				target: facets.target == null ? null : String(facets.target),
 				version:
 					typeof facets.version === 'number' && Number.isFinite(facets.version)
