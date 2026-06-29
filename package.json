@@ -1,6 +1,6 @@
 {
 	"name": "@mindflight/mindbrain-personal-studio",
-	"version": "0.6.1",
+	"version": "0.6.2",
 	"description": "Local GhostCrab MindBrain Studio for SQLite-backed workspaces.",
 	"license": "UNLICENSED",
 	"type": "module",
