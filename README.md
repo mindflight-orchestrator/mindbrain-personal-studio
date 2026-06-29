@@ -7,7 +7,7 @@ Local Svelte Studio for GhostCrab / MindBrain SQLite databases. It visualizes wo
 After the package is published:
 
 ```bash
-npm install @mindflight/mindbrain-personal-studio@0.6.0
+npm install @mindflight/mindbrain-personal-studio@0.6.1
 npx mindbrain-studio
 ```
 
@@ -113,10 +113,10 @@ pnpm install
 pnpm check
 pnpm build
 pnpm pack:local
-npm publish --access public
+pnpm publish:npm
 ```
 
-Release `0.6.0` should be tagged after the GitHub and GitLab repositories have the same squashed `main` commit.
+Release `0.6.1` should be tagged after the GitHub and GitLab repositories have the same squashed `main` commit.
 
 ## Fixture
 

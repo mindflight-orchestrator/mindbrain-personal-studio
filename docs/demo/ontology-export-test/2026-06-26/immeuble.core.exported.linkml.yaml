@@ -1,0 +1,371 @@
+id: https://mindbrain.local/ontology/immeuble::core
+name: core
+title: core
+version: 2.1.0
+
+prefixes:
+  ghostcrab: https://ghostcrab.be/ontology/
+  linkml: https://w3id.org/linkml/
+
+default_prefix: ghostcrab
+default_range: string
+
+imports:
+  - linkml:types
+
+classes:
+  bank_account:
+    class_uri: https://ghostcrab.be/ontology/immeuble/BankAccount
+    description: bank_account
+    annotations:
+      ghostcrab.native_entity_type: bank_account
+  billing_group:
+    class_uri: https://ghostcrab.be/ontology/immeuble/BillingGroup
+    description: Versioned group used as the operational recipient of charges.
+    annotations:
+      ghostcrab.native_entity_type: billing_group
+  block:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Block
+    description: Physical block or stairwell inside a building.
+    annotations:
+      ghostcrab.native_entity_type: block
+  building:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Building
+    description: Residential or mixed building managed by a syndic.
+    annotations:
+      ghostcrab.native_entity_type: building
+  cellar:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Cellar
+    description: cellar
+    annotations:
+      ghostcrab.native_entity_type: cellar
+  charge_call:
+    class_uri: https://ghostcrab.be/ontology/immeuble/ChargeCall
+    description: charge_call
+    annotations:
+      ghostcrab.native_entity_type: charge_call
+  coda_entry:
+    class_uri: https://ghostcrab.be/ontology/immeuble/CodaEntry
+    description: Bank statement line imported from a Belgian CODA file.
+    annotations:
+      ghostcrab.native_entity_type: coda_entry
+  decision:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Decision
+    description: decision
+    annotations:
+      ghostcrab.native_entity_type: decision
+  document:
+    class_uri: http://www.w3.org/ns/prov#Entity
+    description: document
+    annotations:
+      ghostcrab.native_entity_type: document
+  event:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Event
+    description: event
+    annotations:
+      ghostcrab.native_entity_type: event
+  household:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Household
+    description: Residential household occupying a lot; members remain individual persons.
+    annotations:
+      ghostcrab.native_entity_type: household
+  lease_contract:
+    class_uri: https://ghostcrab.be/ontology/immeuble/LeaseContract
+    description: Lease contract linking a landlord, a tenant household, and a unit over time.
+    annotations:
+      ghostcrab.native_entity_type: lease_contract
+  organization:
+    class_uri: http://www.w3.org/ns/org#Organization
+    description: organization
+    annotations:
+      ghostcrab.native_entity_type: organization
+  ownership_group:
+    class_uri: https://ghostcrab.be/ontology/immeuble/OwnershipGroup
+    description: Versioned group of right holders for a lot.
+    annotations:
+      ghostcrab.native_entity_type: ownership_group
+  parking_space:
+    class_uri: https://ghostcrab.be/ontology/immeuble/ParkingSpace
+    description: parking_space
+    annotations:
+      ghostcrab.native_entity_type: parking_space
+  payment_allocation:
+    class_uri: https://ghostcrab.be/ontology/immeuble/PaymentAllocation
+    description: payment_allocation
+    annotations:
+      ghostcrab.native_entity_type: payment_allocation
+  person:
+    class_uri: http://xmlns.com/foaf/0.1/Person
+    description: person
+    annotations:
+      ghostcrab.native_entity_type: person
+  private_garden:
+    class_uri: https://ghostcrab.be/ontology/immeuble/PrivateGarden
+    description: Garden attached to a ground-floor lot under exclusive use.
+    annotations:
+      ghostcrab.native_entity_type: private_garden
+  receipt:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Receipt
+    description: receipt
+    annotations:
+      ghostcrab.native_entity_type: receipt
+  reminder:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Reminder
+    description: reminder
+    annotations:
+      ghostcrab.native_entity_type: reminder
+  role:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Role
+    description: role
+    annotations:
+      ghostcrab.native_entity_type: role
+  shared_equipment:
+    class_uri: https://ghostcrab.be/ontology/immeuble/SharedEquipment
+    description: Shared equipment located in a common area, such as a washing machine.
+    annotations:
+      ghostcrab.native_entity_type: shared_equipment
+  shared_space:
+    class_uri: https://ghostcrab.be/ontology/immeuble/SharedSpace
+    description: Common area such as hall, garden, elevator, or technical room.
+    annotations:
+      ghostcrab.native_entity_type: shared_space
+  unit:
+    class_uri: https://ghostcrab.be/ontology/immeuble/Unit
+    description: Private lot, usually an apartment, within a building block.
+    annotations:
+      ghostcrab.native_entity_type: unit
+
+slots:
+  allocated_to:
+    domain: coda_entry
+    range: billing_group
+    slot_uri: https://ghostcrab.be/ontology/immeuble/allocatedTo
+    annotations:
+      ghostcrab.native_edge_type: allocated_to
+  assigned_cellar:
+    domain: unit
+    range: cellar
+    slot_uri: https://ghostcrab.be/ontology/immeuble/assignedCellar
+    annotations:
+      ghostcrab.native_edge_type: assigned_cellar
+  assigned_garage:
+    domain: unit
+    range: parking_space
+    slot_uri: https://ghostcrab.be/ontology/immeuble/assignedGarage
+    annotations:
+      ghostcrab.native_edge_type: assigned_garage
+  bills_to:
+    domain: billing_group
+    range: unit
+    slot_uri: https://ghostcrab.be/ontology/immeuble/billsTo
+    annotations:
+      ghostcrab.native_edge_type: bills_to
+  block_contains_unit:
+    domain: block
+    range: unit
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: block_contains_unit
+  building_contains_block:
+    domain: building
+    range: block
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_block
+  building_contains_cellar:
+    domain: building
+    range: cellar
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_cellar
+  building_contains_parking_space:
+    domain: building
+    range: parking_space
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_parking_space
+  building_contains_private_garden:
+    domain: building
+    range: private_garden
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_private_garden
+  building_contains_shared_equipment:
+    domain: building
+    range: shared_equipment
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_shared_equipment
+  building_contains_shared_space:
+    domain: building
+    range: shared_space
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_shared_space
+  building_contains_unit:
+    domain: building
+    range: unit
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: building_contains_unit
+  closed:
+    domain: event
+    range: Entity
+    slot_uri: https://ghostcrab.be/ontology/immeuble/closed
+    annotations:
+      ghostcrab.native_edge_type: closed
+  created:
+    domain: event
+    range: Entity
+    slot_uri: https://ghostcrab.be/ontology/immeuble/created
+    annotations:
+      ghostcrab.native_edge_type: created
+  decided_by:
+    domain: Entity
+    range: decision
+    slot_uri: https://ghostcrab.be/ontology/immeuble/decidedBy
+    annotations:
+      ghostcrab.native_edge_type: decided_by
+  has_member:
+    domain: Group
+    range: person
+    slot_uri: http://www.w3.org/ns/org#hasMember
+    annotations:
+      ghostcrab.native_edge_type: has_member
+  household_member:
+    domain: household
+    range: person
+    slot_uri: https://ghostcrab.be/ontology/immeuble/householdMember
+    annotations:
+      ghostcrab.native_edge_type: household_member
+  leases:
+    domain: lease_contract
+    range: unit
+    slot_uri: https://ghostcrab.be/ontology/immeuble/leases
+    annotations:
+      ghostcrab.native_edge_type: leases
+  manages:
+    domain: organization
+    range: building
+    slot_uri: https://ghostcrab.be/ontology/immeuble/manages
+    annotations:
+      ghostcrab.native_edge_type: manages
+  matched_to:
+    domain: coda_entry
+    range: charge_call
+    slot_uri: https://ghostcrab.be/ontology/immeuble/matchedTo
+    annotations:
+      ghostcrab.native_edge_type: matched_to
+  occupies:
+    domain: person
+    range: unit
+    slot_uri: https://ghostcrab.be/ontology/immeuble/occupies
+    annotations:
+      ghostcrab.native_edge_type: occupies
+  owns:
+    domain: Agent
+    range: Asset
+    slot_uri: https://ghostcrab.be/ontology/immeuble/owns
+    annotations:
+      ghostcrab.native_edge_type: owns
+  part_of:
+    domain: Asset
+    range: building
+    slot_uri: https://ghostcrab.be/ontology/immeuble/partOf
+    annotations:
+      ghostcrab.native_edge_type: part_of
+  primary_residence_of:
+    domain: unit
+    range: household
+    slot_uri: https://ghostcrab.be/ontology/immeuble/primaryResidenceOf
+    annotations:
+      ghostcrab.native_edge_type: primary_residence_of
+  records:
+    domain: bank_account
+    range: coda_entry
+    slot_uri: https://ghostcrab.be/ontology/immeuble/records
+    annotations:
+      ghostcrab.native_edge_type: records
+  rented_to:
+    domain: Entity
+    range: household
+    slot_uri: https://ghostcrab.be/ontology/immeuble/rentedTo
+    annotations:
+      ghostcrab.native_edge_type: rented_to
+  represents:
+    domain: organization
+    range: building
+    slot_uri: https://ghostcrab.be/ontology/immeuble/represents
+    annotations:
+      ghostcrab.native_edge_type: represents
+  requires_review:
+    domain: coda_entry
+    range: charge_call
+    slot_uri: https://ghostcrab.be/ontology/immeuble/requiresReview
+    annotations:
+      ghostcrab.native_edge_type: requires_review
+  shared_space_contains_equipment:
+    domain: shared_space
+    range: shared_equipment
+    slot_uri: https://ghostcrab.be/ontology/immeuble/contains
+    annotations:
+      ghostcrab.native_edge_type: shared_space_contains_equipment
+  superseded_by:
+    domain: Group
+    range: Group
+    slot_uri: https://ghostcrab.be/ontology/immeuble/supersededBy
+    annotations:
+      ghostcrab.native_edge_type: superseded_by
+  triggered:
+    domain: coda_entry
+    range: Entity
+    slot_uri: https://ghostcrab.be/ontology/immeuble/triggered
+    annotations:
+      ghostcrab.native_edge_type: triggered
+  uses_common:
+    domain: household
+    range: Asset
+    slot_uri: https://ghostcrab.be/ontology/immeuble/usesCommon
+    annotations:
+      ghostcrab.native_edge_type: uses_common
+  uses_exclusive:
+    domain: unit
+    range: Asset
+    slot_uri: https://ghostcrab.be/ontology/immeuble/usesExclusive
+    annotations:
+      ghostcrab.native_edge_type: uses_exclusive
+
+enums:
+  building:
+    permissible_values:
+  decision:
+    permissible_values:
+  role:
+    permissible_values:
+  scenario:
+    permissible_values:
+  status:
+    permissible_values:
+  unit:
+    permissible_values:
+  charge_status:
+    permissible_values:
+  payment_status:
+    permissible_values:
+  LifecycleStatus:
+    permissible_values:
+      confirmed: {}
+      pending_verification: {}
+      contested: {}
+      closed: {}
+  PaymentStatus:
+    permissible_values:
+      expected: {}
+      matched: {}
+      complete: {}
+      partial: {}
+      manual_review: {}
+      overdue: {}
+      closed: {}
+  document_type:
+    permissible_values:

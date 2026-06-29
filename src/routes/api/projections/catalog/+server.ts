@@ -139,11 +139,41 @@ function stringField(obj: Record<string, unknown>, key: string): string | undefi
 
 function previewFrom(value: Record<string, unknown>, fallback?: string): string | undefined {
 	return (
+		stringField(value, 'question') ??
+		stringField(value, 'business_question') ??
+		stringField(value, 'competency_question') ??
+		stringField(value, 'review_question') ??
 		stringField(value, 'summary') ??
 		stringField(value, 'description') ??
-		stringField(value, 'question') ??
 		stringField(value, 'status') ??
 		fallback
+	);
+}
+
+function objectField(obj: Record<string, unknown>, key: string): Record<string, unknown> | undefined {
+	const value = obj[key];
+	return value && typeof value === 'object' && !Array.isArray(value)
+		? (value as Record<string, unknown>)
+		: undefined;
+}
+
+function payloadFor(row: CatalogItem): Record<string, unknown> {
+	return objectField(row.raw, 'payload') ?? objectField(row.raw, 'metadata') ?? {};
+}
+
+function sourcePlanIdFor(row: CatalogItem): string | undefined {
+	const payload = payloadFor(row);
+	const metadata = objectField(row.raw, 'metadata') ?? {};
+	const artifactPlanId =
+		row.artifact_id && row.artifact_kind !== 'analysis_plan'
+			? row.artifact_id.replace(/^(live_answer_view|answer_snapshot|evidence_pack)__/, 'analysis_plan__')
+			: undefined;
+	return (
+		stringField(payload, 'parent_artifact_id') ??
+		stringField(payload, 'source_plan_id') ??
+		stringField(metadata, 'source_plan_id') ??
+		(row.artifact_kind === 'answer_snapshot' ? stringField(metadata, 'artifact_id') : undefined) ??
+		artifactPlanId
 	);
 }
 
@@ -236,6 +266,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	const artifactKind = safeKind(url.searchParams.get('artifact_kind'));
 	const search = safeSearch(url.searchParams.get('search') ?? url.searchParams.get('query'));
 	const limit = Math.min(Math.max(Number(url.searchParams.get('limit') ?? 1000) || 1000, 1), 1000);
+	const catalogBuildLimit = artifactKind && artifactKind !== 'analysis_plan' ? 1000 : limit;
 	const includeLegacy = safeBoolean(url.searchParams.get('include_legacy'));
 
 	const items: CatalogItem[] = [];
@@ -248,9 +279,9 @@ export const GET: RequestHandler = async ({ url }) => {
 			       lifecycle, state, current_version, payload_json, legacy_ref, created_at_unix, updated_at_unix
 			FROM mindbrain_answer_artifacts
 			WHERE workspace_id = ${sqlString(workspaceId)}
-			  ${artifactKind ? `AND artifact_kind = ${sqlString(artifactKind)}` : ''}
+			  ${artifactKind ? `AND artifact_kind IN (${sqlString(artifactKind)}, 'analysis_plan')` : ''}
 			ORDER BY artifact_kind, public_label, updated_at_unix DESC
-			LIMIT ${limit};
+			LIMIT ${catalogBuildLimit};
 			`
 		);
 		for (const row of artifactRows) {
@@ -338,7 +369,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			WHERE workspace_id = ${sqlString(workspaceId)}
 			  AND entity_type = 'ProjectionResult'
 			ORDER BY name, entity_id
-			LIMIT ${limit};
+			LIMIT ${catalogBuildLimit};
 			`
 		);
 		for (const row of graphRows) {
@@ -408,6 +439,27 @@ export const GET: RequestHandler = async ({ url }) => {
 			linked_snapshot_id: linkedSnapshot?.projection_id ?? linkedSnapshot?.artifact_id,
 			suggested_tools: suggestedTools(row)
 		});
+	}
+
+	const questionByArtifactId = new Map<string, string>();
+	const questionByProjectionId = new Map<string, string>();
+	for (const row of deduped.values()) {
+		if (row.artifact_kind !== 'analysis_plan') continue;
+		const question = previewFrom(payloadFor(row));
+		if (!question) continue;
+		if (row.artifact_id) questionByArtifactId.set(row.artifact_id, question);
+		if (row.projection_id) questionByProjectionId.set(row.projection_id, question);
+	}
+	for (const [key, row] of deduped.entries()) {
+		if (row.artifact_kind === 'analysis_plan') {
+			deduped.set(key, { ...row, preview: previewFrom(payloadFor(row), row.preview) });
+			continue;
+		}
+		const sourcePlanId = sourcePlanIdFor(row);
+		const inheritedQuestion =
+			(sourcePlanId ? questionByArtifactId.get(sourcePlanId) : undefined) ??
+			(row.projection_id ? questionByProjectionId.get(row.projection_id) : undefined);
+		if (inheritedQuestion) deduped.set(key, { ...row, preview: inheritedQuestion });
 	}
 
 	const rows = [...deduped.values()]
